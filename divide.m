@@ -1,10 +1,10 @@
 function [B,C] = divide(A,p)
-%»®·ÖÊı¾İ¼¯ÎªÑµÁ·ºÍ²âÊÔ¼¯
-a=randperm(length(A));%Ëæ»úÊıĞòÁĞ
-number=round(length(A)*p);%²âÊÔ¼¯µÄ¸öÊı
+%åˆ’åˆ†æ•°æ®é›†ä¸ºè®­ç»ƒå’Œæµ‹è¯•é›†
+a=randperm(length(A));%éšæœºæ•°åºåˆ—
+number=round(length(A)*p);%æµ‹è¯•é›†çš„ä¸ªæ•°
 B=A(a(1:number),:);
 C=A(a(number+1:end),:);
-% B=sortrows(B,1:2);%°´Ç°Á½ĞĞ½øĞĞÅÅĞòÒÔÏÂ£¬Ã»Ê²Ã´ÓÃ¾ÍÊÇºÃ¿´
+% B=sortrows(B,1:2);%æŒ‰å‰ä¸¤è¡Œè¿›è¡Œæ’åºä»¥ä¸‹
 % C=sortrows(C,1:2);
 end
 
