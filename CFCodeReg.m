@@ -3,38 +3,38 @@ load movie;
 [test,train]=divide(A,0.2);
 usernumber=max(A(:,1));
 itemnumber=max(A(:,2));
-lambda=0.05;%×îÓÅ²ÎÊı
+lambda=0.05;%æœ€ä¼˜å‚æ•°
 B=30;
 R=zeros(usernumber,itemnumber);
 for i=1:length(train)
     R(train(i,1),train(i,2))=train(i,3);
 end
-R=R/max(A(:,3));%¹éÒ»»¯
-%³õÊ¼»¯²úÆ·ÌØÕ÷¾ØÕó
+R=R/max(A(:,3));%å½’ä¸€åŒ–
+%åˆå§‹åŒ–äº§å“ç‰¹å¾çŸ©é˜µ
 U=randn(usernumber,B);
 V=randn(itemnumber,B);
-U1=-ones(size(U));%¶şÖµ»¯U
+U1=-ones(size(U));%äºŒå€¼åŒ–U
 for i=1:usernumber
     temp=U(i,:);
     t=median(temp);
     index=find(temp>t);
     U1(i,index)=1;
 end
-V1=-ones(size(V));%¶şÖµ»¯V
+V1=-ones(size(V));%äºŒå€¼åŒ–V
 for i=1:itemnumber
     temp=V(i,:);
     t=median(temp);
     index=find(temp>t);
     V1(i,index)=1;
 end
-%¼ÆËãQ
-M=U1'*U+V1'*V;%²úÉú£¨FF~^T+HH~^T£©
-[X,~,Y]=svd(M);
-Q=X*Y';
-maxiter=1;%×î´óµü´ú´ÎÊı
-learningrate=0.005;%Ëæ»úÌİ¶ÈÏÂ½µµÄÑ§Ï°ÂÊ
+maxiter=10;%æœ€å¤§è¿­ä»£æ¬¡æ•°
+learningrate=0.005;%éšæœºæ¢¯åº¦ä¸‹é™çš„å­¦ä¹ ç‡
 for iter=1:maxiter
-    for t=1:10%×ÔÎÒ¾õµÃÑ§Ï°ÂÊÓĞµãĞ¡£¬¶àµü´ú¼¸´Î
+    %è®¡ç®—Q
+    M=U1'*U+V1'*V;%äº§ç”Ÿï¼ˆFF~^T+HH~^Tï¼‰
+    [X,~,Y]=svd(M);
+    Q=X*Y';
+    for t=1:10%è‡ªæˆ‘è§‰å¾—å­¦ä¹ ç‡æœ‰ç‚¹å°ï¼Œå¤šè¿­ä»£å‡ æ¬¡
         tic;
     for i=1:length(train)
         tempu=train(i,1);
@@ -48,15 +48,15 @@ for iter=1:maxiter
     end
     U=U1;
     V=V1;
-    U1=-ones(size(U));%¶şÖµ»¯U
+    U1=-ones(size(U));%äºŒå€¼åŒ–U
     for i=1:usernumber
     temp=U(i,:);
-    temp=Q*temp';%´Ë´¦ÒıÈëÕı½»¾ØÕóQ
+    temp=Q*temp';%æ­¤å¤„å¼•å…¥æ­£äº¤çŸ©é˜µQ
     t=median(temp);
     index=find(temp>t);
     U1(i,index)=1;
     end
-    V1=-ones(size(V));%¶şÖµ»¯V
+    V1=-ones(size(V));%äºŒå€¼åŒ–V
     for i=1:itemnumber
     temp=V(i,:);
     temp=Q*temp';
@@ -64,13 +64,9 @@ for iter=1:maxiter
     index=find(temp>t);
     V1(i,index)=1;
     end
-    %¼ÆËãQ
-    M=U1'*U+V1'*V;%²úÉú£¨FF~^T+HH~^T£©
-    [X,~,Y]=svd(M);
-    Q=X*Y';
 end
-%ÆÀ²âÖ¸±ê
-pre=zeros(usernumber,1);%¼ÆËãpre
+%è¯„æµ‹æŒ‡æ ‡
+pre=zeros(usernumber,1);%è®¡ç®—pre
 for i=1:usernumber
     tic
     relevant=find(R(i,:)==1);
